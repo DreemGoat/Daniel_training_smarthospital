@@ -216,4 +216,25 @@ with st.form("triage_form"):
 
     submitted = st.form_submit_button("Get AI Recommendation →")
 
-
+# -- Result ----------------------------
+if submitted:
+  patient = pd.Dataframe([{
+        'age'              : age,
+        'gender'           : gender_map.get(gender, 0),
+        'fever'            : int(fever),
+        'cough'            : int(cough),
+        'headache'         : int(headache),
+        'chest_pain'       : int(chest_pain),
+        'stomach_pain'     : int(stomach_pain),
+        'shortness_breath' : int(shortness_breath),
+        'nausea_vomiting'  : int(nausea_vomiting),
+        'dizziness'        : int(dizziness),
+        'skin_rash'        : int(skin_rash),
+        'temperature_level': temp_map.get(temperature_level, 1),
+        'heart_rate_level' : hr_map.get(heart_rate_level, 1),
+        'duration'         : dur_map.get(duration, 1),
+        'asthma'           : int(asthma),
+        'hypertension'     : int(hypertension),
+        'heart_disease'    : int(heart_disease),
+        'chief_complaint'  : cc_map.get(chief_complaint, 9)
+  }])
