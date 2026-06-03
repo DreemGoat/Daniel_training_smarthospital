@@ -238,53 +238,53 @@ if submitted:
         'heart_disease'    : int(heart_disease),
         'chief_complaint'  : cc_map.get(chief_complaint, 9)
     }])
-patient_scaled = patient.copy()
-patient_scaled[cols_to_scale] = scaler.transform(patient[cols_to_scale])
+    patient_scaled = patient.copy()
+    patient_scaled[cols_to_scale] = scaler.transform(patient[cols_to_scale])
 
-pred       = model.predict(patient_scaled[features])[0]
-proba      = model.predict_proba(patient_scaled[features])[0]
-dept_name  = dept_map_inv[pred]
-confidence = proba[pred] * 100
-info       = DEPT_INFO[dept_name]
+    pred       = model.predict(patient_scaled[features])[0]
+    proba      = model.predict_proba(patient_scaled[features])[0]
+    dept_name  = dept_map_inv[pred]
+    confidence = proba[pred] * 100
+    info       = DEPT_INFO[dept_name]
 
-st.markdown("---")
-st.markdown("""
+    st.markdown("---")
+    st.markdown("""
     <div style="font-size:22px;font-weight:700;color:#111827;margin-bottom:4px;">AI Recommendation</div>
     <div style="font-size:14px;color:#6b7280;margin-bottom:1.5rem;">Based on the information you provided</div>
     """, unsafe_allow_html=True)
 
-res_col, prob_col = st.columns([3, 2])
+    res_col, prob_col = st.columns([3, 2])
 
-with res_col:
-    steps_html = ''.join(
-    f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
-    f'<span style="color:{info["color"]};font-size:14px;">📍</span>'
-    f'<span style="font-size:14px;color:#374151;">{step}</span></div>'
-    for step in info['next']
-    )
-st.markdown(f"""
-    <div style="background:{info['bg']};border:1.5px solid {info['border']};
-          border-radius:16px;padding:28px 32px;">
-    <div style="font-size:44px;margin-bottom:12px;">{info['icon']}</div>
-    <div style="font-size:26px;font-weight:700;color:{info['color']};margin-bottom:8px;">{dept_name}</div>
-    <div style="font-size:14px;color:#374151;margin-bottom:20px;">
-        Our AI suggests you visit the <strong>{dept_name}</strong> Department.
-    </div>
-    <div style="font-size:11px;font-weight:600;color:{info['color']};text-transform:uppercase;
-          letter-spacing:0.08em;margin-bottom:8px;">Why?</div>
-    <div style="font-size:14px;color:#4b5563;margin-bottom:20px;">{info['desc']} Your reported symptoms and vitals match patients typically directed to this department.</div>
-    <div style="font-size:11px;font-weight:600;color:{info['color']};text-transform:uppercase;
-          letter-spacing:0.08em;margin-bottom:10px;">What to do next?</div>
-    {steps_html}
-    <div style="margin-top:20px;padding:12px 16px;background:rgba(0,0,0,0.05);
-          border-radius:10px;font-size:12px;color:#6b7280;line-height:1.5;">
-          ⚠️ This is an AI suggestion, not a medical diagnosis. Please consult a doctor for further evaluation.
+    with res_col:
+        steps_html = ''.join(
+            f'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">'
+            f'<span style="color:{info["color"]};font-size:14px;">📍</span>'
+            f'<span style="font-size:14px;color:#374151;">{step}</span></div>'
+            for step in info['next']
+        )
+        st.markdown(f"""
+        <div style="background:{info['bg']};border:1.5px solid {info['border']};
+                    border-radius:16px;padding:28px 32px;">
+            <div style="font-size:44px;margin-bottom:12px;">{info['icon']}</div>
+            <div style="font-size:26px;font-weight:700;color:{info['color']};margin-bottom:8px;">{dept_name}</div>
+            <div style="font-size:14px;color:#374151;margin-bottom:20px;">
+                Our AI suggests you visit the <strong>{dept_name}</strong> Department.
+            </div>
+            <div style="font-size:11px;font-weight:600;color:{info['color']};text-transform:uppercase;
+                        letter-spacing:0.08em;margin-bottom:8px;">Why?</div>
+            <div style="font-size:14px;color:#4b5563;margin-bottom:20px;">{info['desc']} Your reported symptoms and vitals match patients typically directed to this department.</div>
+            <div style="font-size:11px;font-weight:600;color:{info['color']};text-transform:uppercase;
+                        letter-spacing:0.08em;margin-bottom:10px;">What to do next?</div>
+            {steps_html}
+            <div style="margin-top:20px;padding:12px 16px;background:rgba(0,0,0,0.05);
+                        border-radius:10px;font-size:12px;color:#6b7280;line-height:1.5;">
+                ⚠️ This is an AI suggestion, not a medical diagnosis. Please consult a doctor for further evaluation.
             </div>
         </div>
         """, unsafe_allow_html=True)
 
-with prob_col:
-  st.markdown(f"""
+    with prob_col:
+        st.markdown(f"""
         <div style="background:white;border:1px solid #e5e7eb;border-radius:16px;padding:24px;">
             <div style="font-size:14px;font-weight:600;color:#111827;margin-bottom:16px;">
                 Confidence by department
